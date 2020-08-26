@@ -1,4 +1,11 @@
-# Fase 1: Importar las dependencias
+# TRANSFORMER para la Traducción de Texto
+
+> Basado en:https://www.udemy.com/course/procesamiento-del-lenguaje-natural/learn/lecture/21502260#overview
+
+- Author: Juan Gabriel Gomila
+- Course: "Procesamiento del Lenguaje Natural Moderno en Python.
+
+## Importar las dependencias
 
 **Paper original**: All you need is Attention https://arxiv.org/pdf/1706.03762.pdf
 
@@ -48,7 +55,7 @@ from mlearner.nlp import Processor_data
 TRAIN = False
 ```
 
-# Fase 2: Pre Procesado de Datos
+## Pre Procesado de Datos
 
 
 
@@ -385,7 +392,7 @@ dataset = dataset.shuffle(BUFFER_SIZE).batch(BATCH_SIZE)
 dataset = dataset.prefetch(tf.data.experimental.AUTOTUNE)
 ```
 
-# Modelo Transformer - Entrenamiento
+## Modelo Transformer - Entrenamiento
 
 
 ```python
@@ -430,7 +437,7 @@ Transformer_train(model_Transformer,
     The last checkpoint has been restored
     
 
-# Evaluación
+## Evaluación
 
 
 ```python
@@ -469,7 +476,7 @@ def translate(sentence):
     print("Traducción predicha: {}".format(predicted_sentence))
 ```
 
-# Predicciones
+## Predicciones
 
 
 ```python
