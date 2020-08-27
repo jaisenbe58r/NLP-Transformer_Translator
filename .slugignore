@@ -5,4 +5,3 @@ ckpt_ext/
 .ipynb_checkpoints/
 examples/
 images/
-save_model/
