@@ -1,3 +1,6 @@
 data/
 ckpt/
+ckpt_ext/
 .ipynb_checkpoints
+examples/
+images/
