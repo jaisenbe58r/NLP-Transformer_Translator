@@ -41,8 +41,8 @@ def Function_clean(text):
     return text
 
 
-processor_en = load('data/processor_en.joblib')
-processor_es = load('data/processor_es.joblib')
+processor_en = load('save_model/processor_en.joblib')
+processor_es = load('save_model/processor_es.joblib')
 
 # Carga Modelo
 loaded_model = Transformer(vocab_size_enc=VOCAB_SIZE_EN,

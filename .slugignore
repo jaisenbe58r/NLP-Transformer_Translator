@@ -2,5 +2,7 @@ data/
 ckpt/
 ckpt_ext/
 .ipynb_checkpoints
+.ipynb_checkpoints/
 examples/
 images/
+save_model/
