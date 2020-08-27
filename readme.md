@@ -28,7 +28,7 @@ La implementación del Transformer utilizado está basada en el curso ["Procesam
 [All you need is Attention](https://arxiv.org/pdf/1706.03762.pdf): Paper original sobre el que esta basada toda la codificación del transformer en el curso.
 
 
-> El profesor Juan Gabriel Gomila, también dispone de la Ruta de Aprendizaje para Ingenieros de Inteligencia Artificial donde se ofrecen planes de estudio estructurados y cursos con descuentos para los cursos de inteligencia artificial que necesites. Esta Ruta de Aprendizaje proporciona la profundidad, el conocimiento y el carácter exigente de un programa acreditado, a la vez que permite aprender a tu propio ritmo en talleres interactivos y bajo demanda. También, estos cursos desafían y ponen a prueba tu aprendizaje en una fracción del tiempo en comparación con un programa de master universitario, y te dan acceso a cursos con descuento cuando te inscribes, además del material complementario que viene de regalo con todos los cursos como acceso a comunidades, scripts, libros, apuntes y repositorios de código.
+> El profesor Juan Gabriel Gomila, también dispone de la Ruta de Aprendizaje para Ingenieros de Inteligencia Artificial donde se ofrecen planes de estudio estructurados y cursos con descuentos para los cursos de inteligencia artificial que necesites. Esta Ruta de Aprendizaje proporciona la profundidad, el conocimiento y el carácter exigente de un programa acreditado, a la vez que permite aprender a tu propio ritmo en talleres interactivos y bajo demanda. También, estos cursos desafían y ponen a prueba tu aprendizaje en una fracción del tiempo en comparación con un programa de máster universitario, y te dan acceso a cursos con descuento cuando te inscribes, además del material complementario que viene de regalo con todos los cursos como acceso a comunidades, scripts, libros, apuntes y repositorios de código.
 
 ***
 
@@ -132,7 +132,7 @@ europarl_es[:225]
 
 ## Limpieza de datos
 
-Definimos funcion de procesado de texto basada en expresiones regulares
+Definimos función de procesado de texto basada en expresiones regulares
 
 
 ```python
@@ -407,7 +407,7 @@ outputs = tf.keras.preprocessing.sequence.pad_sequences(outputs.values,
                                                         maxlen=MAX_LENGTH)
 ```
 
-Se crea el daset generador para servir los inputs/outputs procesados.
+Se crea el dataset generador para servir los inputs/outputs procesados.
 
 
 ```python
@@ -452,7 +452,7 @@ from mlearner.nlp import Transformer_train
 
 
 ```python
-EPOCHS = 1
+EPOCHS = 5
 
 Transformer_train(model_Transformer,
                   dataset,
@@ -481,7 +481,7 @@ Transformer_train(model_Transformer,
 
 ## Evaluación
 
-
+**Función de evaluación.**
 ```python
 def evaluate(inp_sentence):
     inp_sentence = \
@@ -505,6 +505,7 @@ def evaluate(inp_sentence):
     return tf.squeeze(output, axis=0)
 ```
 
+**Función de Traducción.**
 
 ```python
 def translate(sentence):
@@ -561,7 +562,7 @@ translate("This is an interesting course about Natural Language Processing")
 
 Como podemos observar, las predicciones son bastante aceptables dada la versión reducida del Transformer utilizado respecto al Paper original. 
 
-Tal y como se observa en la fase de entrenamiento, el porcentaje de aciertos ronda casi un 50% para 5 epocas de entrenamiento, por ello cabe esperar que las predicciones no sean completamente exactas. Pero lo importante en este caso es analizar si el modelo ha sido capaz de aprender del contexto, con ello aunque falle con alguna palabra observamos que ha inferido la continuación de la frase con bastante relación con el contexto general de la frase.
+Tal y como se observa en la fase de entrenamiento, el porcentaje de aciertos ronda casi un 50% para 5 épocas de entrenamiento, por ello cabe esperar que las predicciones no sean completamente exactas. Pero lo importante en este caso es analizar si el modelo ha sido capaz de aprender del contexto, con ello aunque falle con alguna palabra observamos que ha inferido la continuación de la frase con bastante relación con el contexto general de la frase.
 
 Como hemos comentado en la introducción, la potencia de los Transformers reside en su capacidad de analizar la frase en todo su conjunto sin la necesidad de centrarse en los datos secuencialmente como ocurre con las RNR (Redes Neuronales Recurrentes). Un ejemplo de ello, es la virtud del algoritmo de detectar una oración exclamativa en inglés con solo un signo de puntuación ```!``` al final de la frase, para inferir el resultado de una oración exclamativa en español con dos signos de puntuación al inicio y al final. Aquí es donde se ve potenciada la capacidad de los transformers frente a las RNR gracias a su mecanismo de Atención, donde consigue un entendimiento global del contexto de la frase sin importar el orden de las palabras.
 
@@ -576,7 +577,7 @@ En el siguiente ejemplo se denota la capacidad del modelo de entender o aprender
 
 Se tiene que tener en cuenta también que el modelo se ha entrenado bajo un _corpus_ del parlamento europeo y por tanto alguna expresiones vulgares o similar puede ser que no llegue a entenderlas bien. Esto es debido a que en el parlamento europeo se utiliza un lenguaje muy formal y por ello puede que algunas expresiones no tengan cabida en el texto de entrenamiento del modelo.
 
-Como punto final, para mejorar los resultados os invito a aumentar el valor de los hiper parámetros con los siuientes valores:
+Como punto final, para mejorar los resultados os invito a aumentar el valor de los hiper parámetros con los siguientes valores:
 
 ```python
 # Hiper Parámetros
