@@ -1,13 +1,42 @@
 # TRANSFORMER para la Traducción de Texto
 
-> Basado en:https://www.udemy.com/course/procesamiento-del-lenguaje-natural/learn/lecture/21502260#overview
+**Implementación de un modelo _Transformer_ para la traducción de texto.**
 
-- Author: Juan Gabriel Gomila
-- Course: "Procesamiento del Lenguaje Natural Moderno en Python.
+![image](/images/portada.PNG)
+
+
+## Introducción
+
+Los Transformers están diseñados para manejar datos secuenciales, como el lenguaje natural, para tareas como la traducción y el resumen de texto. Sin embargo, a diferencia de los RNN, los Transformers no requieren que los datos secuenciales se procesen en orden. Por ejemplo, si los datos de entrada son una oración en lenguaje natural, el Transformer no necesita procesar el principio antes del final. Debido a esta característica, el Transformer permite mucha más paralelización que los RNN y, por lo tanto, reduce los tiempos de entrenamiento. 
+
+los Transformers se han convertido en el modelo de elección para abordar muchos problemas en la PNL, reemplazando los modelos de redes neuronales recurrentes más antiguos, como la memoria a corto plazo (LSTM). Dado que el modelo Transformer facilita una mayor paralelización durante el entrenamiento, ha permitido el entrenamiento en conjuntos de datos más grandes de lo que era posible antes de su introducción. 
+
+Para más información sobre los transformers: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model)
+
+***
+
+El transformer se ha implementado en el módulo ```nlp``` de la Librería **MLearner**:
+
+> from mlearner.nlp import Transformer
+
+MLearner pretende ser una librería de herramientas útiles para integrar algoritmos de Machine Learning e IA de manera más fácil e intuitiva. Puede encontrar más información sobre todos los módulos implementados en el siguiente enlace: [Repositorio GitHub Libreria MLearner](https://github.com/jaisenbe58r/MLearner)
+
+
+La implementación del Transformer utilizado está basada en el curso ["Procesamiento del Lenguaje Natural Moderno en Python."](https://www.udemy.com/course/procesamiento-del-lenguaje-natural/learn/lecture/21176538?start=825#overview) de la plataforma Udemy, con el profesor [Juan Gabriel Gomila](https://www.udemy.com/user/juangabriel2/).
+
+
+[All you need is Attention](https://arxiv.org/pdf/1706.03762.pdf): Paper original sobre el que esta basada toda la codificación del transformer en el curso.
+
+
+> El profesor Juan Gabriel Gomila, también dispone de la Ruta de Aprendizaje para Ingenieros de Inteligencia Artificial donde se ofrecen planes de estudio estructurados y cursos con descuentos para los cursos de inteligencia artificial que necesites. Esta Ruta de Aprendizaje proporciona la profundidad, el conocimiento y el carácter exigente de un programa acreditado, a la vez que permite aprender a tu propio ritmo en talleres interactivos y bajo demanda. También, estos cursos desafían y ponen a prueba tu aprendizaje en una fracción del tiempo en comparación con un programa de master universitario, y te dan acceso a cursos con descuento cuando te inscribes, además del material complementario que viene de regalo con todos los cursos como acceso a comunidades, scripts, libros, apuntes y repositorios de código.
+
+***
+
+En el [Repositorio GitHub - NLP-Transformer_Translator](https://github.com/jaisenbe58r/NLP-Transformer_Translator) se puede encontrar toda la documentación, cuadernos jupyter y scripts que se abordan en este artículo.
+
+
 
 ## Importar las dependencias
-
-**Paper original**: All you need is Attention https://arxiv.org/pdf/1706.03762.pdf
 
 
 ```python
@@ -52,7 +81,7 @@ from mlearner.nlp import Processor_data
 
 
 ```python
-TRAIN = False
+TRAIN = True
 ```
 
 ## Pre Procesado de Datos
@@ -85,7 +114,7 @@ europarl_en[:230]
 
 
 
-    'Resumption of the session\nI declare resumed the session of the European Parliament adjourned on Friday 17 December 1999, and I would like once again to wish you a happy new year in the hope that you enjoyed a pleasant festive peri'
+    >>> 'Resumption of the session\nI declare resumed the session of the European Parliament adjourned on Friday 17 December 1999, and I would like once again to wish you a happy new year in the hope that you enjoyed a pleasant festive peri'
 
 
 
@@ -97,7 +126,7 @@ europarl_es[:225]
 
 
 
-    'Reanudación del período de sesiones\nDeclaro reanudado el período de sesiones del Parlamento Europeo, interrumpido el viernes 17 de diciembre pasado, y reitero a Sus Señorías mi deseo de que hayan tenido unas buenas vacaciones'
+    >>> 'Reanudación del período de sesiones\nDeclaro reanudado el período de sesiones del Parlamento Europeo, interrumpido el viernes 17 de diciembre pasado, y reitero a Sus Señorías mi deseo de que hayan tenido unas buenas vacaciones'
 
 
 
@@ -158,7 +187,6 @@ corpus_en[0:2]
 
 
 
-
 <div>
 <style scoped>
     .dataframe tbody tr th:only-of-type {
@@ -173,7 +201,8 @@ corpus_en[0:2]
         text-align: right;
     }
 </style>
-<table border="1" class="dataframe">
+<div>
+<table border="0" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -217,7 +246,7 @@ corpus_es[0:2]
         text-align: right;
     }
 </style>
-<table border="1" class="dataframe">
+<table border="0" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
@@ -247,7 +276,7 @@ len(corpus_en), len(corpus_es)
 
 
 
-    (1965735, 1965735)
+    >>> (1965735, 1965735)
 
 
 
@@ -299,7 +328,7 @@ if not os.path.isfile("data/inputs.csv") and not os.path.isfile("data/outputs.cs
 
 Preparación de las frases como inputs/outputs del Modelo:
 
-> _**[ \INICIO ]**_ + frase + _**[ \FIN ]**_
+_**[ \INICIO ]**_ + frase + _**[ \FIN ]**_
 
 - **[ \INICIO ]**: Carácter que determina el inicio de frase.
 - **[ \FIN ]**: Carácter que determina el final de frase.
@@ -357,7 +386,7 @@ len(inputs), len(outputs)
 
 
 
-    (411131, 411131)
+    >>> (411131, 411131)
 
 
 
@@ -434,8 +463,21 @@ Transformer_train(model_Transformer,
                   max_to_keep=5)
 ```
 
-    The last checkpoint has been restored
-    
+    >>> The last checkpoint has been restored
+    >>> Inicio del epoch 1
+    >>> Epoch 1 Lote 0 Pérdida 1.0833 Precisión 0.4350
+    >>> Epoch 1 Lote 50 Pérdida 1.1687 Precisión 0.4402
+    >>> Epoch 1 Lote 100 Pérdida 1.1845 Precisión 0.4443
+    >>> ...
+    >>> ...
+    >>> Epoch 5 Lote 6200 Pérdida 0.9087 Precisión 0.4888
+    >>> Epoch 5 Lote 6250 Pérdida 0.9102 Precisión 0.4885
+    >>> Epoch 5 Lote 6300 Pérdida 0.9116 Precisión 0.4882
+    >>> Epoch 5 Lote 6350 Pérdida 0.9131 Precisión 0.4880
+    >>> Epoch 5 Lote 6400 Pérdida 0.9144 Precisión 0.4877
+    >>> ...
+    >>> Guardando checkpoint para el epoch 5 en ckpt/ckpt-10
+    >>> Tiempo que ha tardado 1 epoch: 3669.9833788871765 segs
 
 ## Evaluación
 
@@ -483,38 +525,68 @@ def translate(sentence):
 translate("I have got a house")
 ```
 
-    Entrada: I have got a house
-    Traducción predicha: Yo tengo una casa.
-    
+    >>> Entrada: I have got a house
+    >>> Traducción predicha: Tengo una casa
 
 
 ```python
 translate("This is a problem we have to solve.")
 ```
 
-    Entrada: This is a problem we have to solve.
-    Traducción predicha: Este es un problema que tenemos que resolver.
-    
+    >>> Entrada: This is a problem we have to solve.
+    >>> Traducción predicha: Es un problema que debemos solucionarlo.
+        
 
 
 ```python
 translate("This is a really powerful tool!")
 ```
 
-    Entrada: This is a really powerful tool!
-    Traducción predicha: Esto es realmente un simple edificio.
-    
+    >>> Entrada: This is a really powerful tool!
+    >>> Traducción predicha: ¡Es una herramienta realmente poder!
 
 
 ```python
 translate("This is an interesting course about Natural Language Processing")
 ```
 
-    Entrada: This is an interesting course about Natural Language Processing
-    Traducción predicha: Es un error interesante sobre la categoría transfronteriza de la carne de la Comunidad.
-    
+    >>> Entrada: This is an interesting course about Natural Language Processing
+    >>> Traducción predicha: Es un punto interesante sobre el procedimiento de lenguas Lange
 
+
+
+***
+
+## Conclusiones
+
+Como podemos observar, las predicciones son bastante aceptables dada la versión reducida del Transformer utilizado respecto al Paper original. 
+
+Tal y como se observa en la fase de entrenamiento, el porcentaje de aciertos ronda casi un 50% para 5 epocas de entrenamiento, por ello cabe esperar que las predicciones no sean completamente exactas. Pero lo importante en este caso es analizar si el modelo ha sido capaz de aprender del contexto, con ello aunque falle con alguna palabra observamos que ha inferido la continuación de la frase con bastante relación con el contexto general de la frase.
+
+Como hemos comentado en la introducción, la potencia de los Transformers reside en su capacidad de analizar la frase en todo su conjunto sin la necesidad de centrarse en los datos secuencialmente como ocurre con las RNR (Redes Neuronales Recurrentes). Un ejemplo de ello, es la virtud del algoritmo de detectar una oración exclamativa en inglés con solo un signo de puntuación ```!``` al final de la frase, para inferir el resultado de una oración exclamativa en español con dos signos de puntuación al inicio y al final. Aquí es donde se ve potenciada la capacidad de los transformers frente a las RNR gracias a su mecanismo de Atención, donde consigue un entendimiento global del contexto de la frase sin importar el orden de las palabras.
+
+    >>> Entrada: This is a really powerful tool!
+    >>> Traducción predicha: ¡Es una herramienta realmente poder!
+
+
+En el siguiente ejemplo se denota la capacidad del modelo de entender o aprender el idioma más allá de una traducción palabra a palabra. Es decir, el transformer en vez de predecir`de manera literal a ```Yo tengo una casa```, ha sido capaz de entender que puede prescindir del pronombre y empezar la oración con el verbo ```Tengo una casa```, tal y como haríamos cualquier persona de habla española.
+
+    >>> Entrada: I have got a house
+    >>> Traducción predicha: Tengo una casa
+
+Se tiene que tener en cuenta también que el modelo se ha entrenado bajo un _corpus_ del parlamento europeo y por tanto alguna expresiones vulgares o similar puede ser que no llegue a entenderlas bien. Esto es debido a que en el parlamento europeo se utiliza un lenguaje muy formal y por ello puede que algunas expresiones no tengan cabida en el texto de entrenamiento del modelo.
+
+Como punto final, para mejorar los resultados os invito a aumentar el valor de los hiper parámetros con los siuientes valores:
 
 ```python
-
+# Hiper Parámetros
+D_MODEL = 512
+NB_LAYERS = 6
+FFN_UNITS = 2048
+NB_PROJ = 8
+DROPOUT_RATE = 0.1
+EPOCHS = 10
 ```
+
+¡Muchas gracias por vuestra atención y os animo a que comenteis los resultados de vuestros Transformers!
+

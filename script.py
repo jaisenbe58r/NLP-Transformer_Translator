@@ -54,7 +54,7 @@ loaded_model = Transformer(vocab_size_enc=VOCAB_SIZE_EN,
                                 dropout_rate=DROPOUT_RATE)
 
 ckpt = tf.train.Checkpoint(Model=loaded_model)
-ckpt_manager = tf.train.CheckpointManager(ckpt, "save_model/", max_to_keep=5)
+ckpt_manager = tf.train.CheckpointManager(ckpt, "save_model/", max_to_keep=2)
 
 if ckpt_manager.latest_checkpoint:
     ckpt.restore(ckpt_manager.latest_checkpoint)
